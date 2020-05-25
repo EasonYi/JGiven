@@ -1,9 +1,15 @@
 == Spring
 :javadocurl: http://static.javadoc.io/com.tngtech.jgiven/jgiven-spring/{version}/com/tngtech/jgiven/integration/spring
 
+In order to use JGiven together with Spring or Spring-Boot, you have to <<Install Dependency, Install a dependency>>
+and then you have to <<Configure Spring, make your Spring Test Configuration aware of JGiven>>. Finally,
+<<Stages as Spring Beans, adding a special annotation>> to your Test stages, will make Spring recognize them as Beans.
+
+
+
 === Install Dependency
-Spring support is provided by the `jgiven-spring-junit4` and the `jgiven-spring-junit5` dependencies, depending
-on which JUnit version you are using. JUnit 5 is only supported with version 5 of Spring.
+Spring support is provided by the `jgiven-spring-junit4` and the `jgiven-spring-junit5` dependencies,
+depending on which JUnit version you are using. JUnit 5 is only supported with version 5 of Spring.
 
 ==== Maven
 
@@ -33,7 +39,7 @@ existence of JGiven.
 
 ==== Annotation-Based
 If you are using the annotation-based configuration of Spring you can annotate your Spring
-configuration with the link:{javadocurl}/EnableJGiven.html[`@EnableJGiven`] annotation.
+Test Configuration with the link:{javadocurl}/EnableJGiven.html[`@EnableJGiven`] annotation.
 This is all you have to do to configure Spring for JGiven.
 
 ===== Example
@@ -42,7 +48,7 @@ This is all you have to do to configure Spring for JGiven.
 ----
 @EnableJGiven
 @Configuration
-public class MySpringConfig {
+public class MySpringTestConfig {
    //...
 }
 ----
@@ -79,11 +85,12 @@ To now use JGiven in JUnit-based Spring Tests you should inherit from one of the
 
 The test classes with `SpringRule` tests already include the Spring JUnit rules, thus you need to add these
 rules to your test class and you also don't have to specify the Spring JUnit runner.
+
 ===== Example
 
 [source,java]
 ----
-@SpringBootTest(classes={MockServletContext.class, MySpringConfig.class})
+@SpringBootTest(classes={MockServletContext.class, MySpringTestConfig.class})
 @WebAppConfiguration
 @JGivenConfiguration(MyTestJGivenConfiguration.class)
 public class MySpringTest extends SimpleSpringScenarioTest<MySpringTest>{
